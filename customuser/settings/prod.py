@@ -1,5 +1,5 @@
 from customuser.settings.base import *
-from decouple import config
+from decouple import config, Csv
 import dj_database_url
 
 # SECURITY WARNING: keep the secret key used in production secret!
