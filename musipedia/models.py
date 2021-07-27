@@ -1,6 +1,26 @@
 from django.db import models
+from django.db.models.lookups import In
 
 from users.models import MyUser
+
+
+class Info(models.Model):
+
+    info = models.TextField()
+
+    def __str__(self):
+        return self.info
+
+class Image(models.Model):
+
+    name = models.CharField(max_length=100, blank=False)
+    image = models.ImageField(upload_to='image/')
+
+    def __str__(self):
+        return self.name
+
+
+
 
 class Artist(models.Model):
 
@@ -10,7 +30,8 @@ class Artist(models.Model):
     record_label = models.CharField(max_length=50, null=False, blank=False)
     DOB = models.DateField()
     DOD = models.DateField(blank=True, null=True)
-    # picture = models.ImageField()
+    info = models.ForeignKey(Info, blank=True, null=True, on_delete=models.SET_NULL, related_name='artist')
+    image = models.ForeignKey(Image, blank=True, null=True, on_delete=models.SET_NULL, related_name='artist')
 
     def __str__(self):
         return self.stage_name
@@ -20,10 +41,11 @@ class Album(models.Model):
 
     title = models.CharField(max_length=50, blank=False, null=False)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, blank=False, related_name='albums')
-    # cover_image = models.ImageField()
     year_released = models.CharField(max_length=4)
     featured_artists = models.CharField(max_length=50, blank=True)
     producers = models.CharField(max_length=50, blank=True)
+    info = models.ForeignKey(Info, null=True, blank=True, on_delete=models.SET_NULL, related_name='album')
+    image = models.ForeignKey(Image, blank=True, null=True, on_delete=models.SET_NULL, related_name='album')
 
     def __str__(self):
         return self.title
@@ -35,32 +57,21 @@ class Song(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, blank=False, related_name='songs')
     album = models.ForeignKey(Album, on_delete=models.CASCADE, blank=True, null=True, related_name='songs')
     featured_artists = models.CharField(max_length=50, blank=True)
+    info = models.ForeignKey(Info, blank=True, null=True, on_delete=models.SET_NULL, related_name='song')
+    image = models.ForeignKey(Image, blank=True, null=True, on_delete=models.SET_NULL, related_name='song')
 
     def __str__(self):
         return self.title
-'''
-class Image(models.Model):
 
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, blank=True, related_name='picture')
-    album = models.ForeignKey(Album, on_delete=models.CASCADE, blank=True, related_name='cover_image')
-    song = models.ForeignKey(Song, on_delete=models.CASCADE, blank=True, related_name='cover_art')
-    image = models.ImageField()
-'''
+
+
 class Rating(models.Model):
 
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, blank=True, null=True, related_name='ratings')
     album = models.ForeignKey(Album, on_delete=models.CASCADE, blank=True, null=True, related_name='ratings')
     song = models.ForeignKey(Song, on_delete=models.CASCADE, blank=True, null=True, related_name='ratings')
     rating = models.SmallIntegerField()
-'''
-class Info(models.Model):
-
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, blank=True, null=True, related_name='info')
-    album = models.ForeignKey(Album, on_delete=models.CASCADE, blank=True, null=True, related_name='info')
-    song = models.ForeignKey(Song, on_delete=models.CASCADE, blank=True, null=True, related_name='info')
-    info = models.TextField()
-
-'''
+    
 
 
 

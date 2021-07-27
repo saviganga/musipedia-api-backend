@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from decouple import config
 
@@ -50,7 +51,9 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'musipedia.apps.MusipediaConfig',
 
-    'corsheaders'
+    'corsheaders',
+
+    'drf_multiple_model',
 ]
 
 MIDDLEWARE = [
@@ -164,6 +167,22 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer'
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES' : [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES' : [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+
+    ]
+}
+
+
+
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
