@@ -6,12 +6,19 @@ from users.models import MyUser
 
 class Info(models.Model):
 
+    ''' Descritions for Artists, Albums and Songs '''
+
     info = models.TextField()
 
     def __str__(self):
         return self.info
 
+
+
+
 class Image(models.Model):
+
+    '''Images for Artists, Albums and Songs'''
 
     name = models.CharField(max_length=100, blank=False)
     image = models.ImageField(upload_to='image/')
@@ -23,6 +30,8 @@ class Image(models.Model):
 
 
 class Artist(models.Model):
+
+    ''' model for Artists'''
 
     first_name = models.CharField(max_length=50, null=False, blank=False)
     last_name = models.CharField(max_length=50, null=False, blank=False)
@@ -39,6 +48,8 @@ class Artist(models.Model):
 
 class Album(models.Model):
 
+    '''model for albums'''
+
     title = models.CharField(max_length=50, blank=False, null=False)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, blank=False, related_name='albums')
     year_released = models.CharField(max_length=4)
@@ -52,6 +63,8 @@ class Album(models.Model):
 
 
 class Song(models.Model):
+
+    ''' model for Songs '''
 
     title = models.CharField(max_length=50, blank=False, null=False)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, blank=False, related_name='songs')
@@ -67,63 +80,10 @@ class Song(models.Model):
 
 class Rating(models.Model):
 
+    ''' ratings for Artists, Albums, Songs '''
+
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, blank=True, null=True, related_name='ratings')
     album = models.ForeignKey(Album, on_delete=models.CASCADE, blank=True, null=True, related_name='ratings')
     song = models.ForeignKey(Song, on_delete=models.CASCADE, blank=True, null=True, related_name='ratings')
     rating = models.SmallIntegerField()
     
-
-
-
-
-'''
-
-Song 
-    - title
-    - artist
-    - featured artist(s)
-    - ratings
-
-    - producer(s)
-    - info 
-
-Album
-    - title
-    - artist 
-    - year released
-    - cover image
-    - ratings
-
-    - featured artist (s)
-    - producer(s)
-    - info 
-
-Rating
-    - rating(max=10(float))
-
-Picture
-    - type 
-    - image 
-
-Artist
-    - real name
-    - stage name 
-    - record label 
-    - DOB 
-    - DOD 
-    - picture
-    - ratings 
-
-    - info 
-
-
-
-Song 
-    - title
-    - artist
-    - featured artist(s)
-    - ratings
-
-    - producer(s)
-    - info 
-'''

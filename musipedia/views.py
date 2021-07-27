@@ -12,6 +12,8 @@ from drf_multiple_model.viewsets import ObjectMultipleModelAPIViewSet
 
 class ArtistViewSet(viewsets.ModelViewSet):
 
+    ''' view and edit artist instances '''
+
     serializer_class = ArtistSerializer
     queryset = Artist.objects.all()
 
@@ -26,6 +28,8 @@ class ArtistViewSet(viewsets.ModelViewSet):
 
 
 class AlbumViewSet(viewsets.ModelViewSet):
+
+    ''' view and edit album instances '''
 
     serializer_class = AlbumSerializer
     queryset = Album.objects.all()
@@ -42,6 +46,8 @@ class AlbumViewSet(viewsets.ModelViewSet):
 
 class SongViewSet(viewsets.ModelViewSet):
 
+    ''' view and edit song instances '''
+
     serializer_class = SongSerializer
     queryset = Song.objects.all()
 
@@ -57,6 +63,8 @@ class SongViewSet(viewsets.ModelViewSet):
 
 class RatingViewSet(viewsets.ModelViewSet):
 
+    ''' view and edit ratings '''
+
     serializer_class = RatingSerializer
     queryset = Rating.objects.all()
 
@@ -65,20 +73,27 @@ class RatingViewSet(viewsets.ModelViewSet):
 
 class ImageViewSet(viewsets.ModelViewSet):
 
+    ''' view and edit images '''
+
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
 
 
  
 
-
 class InfoViewSet(viewsets.ModelViewSet):
+
+    ''' view and edit album info descriptions '''
 
     serializer_class = InfoSerializer
     queryset = Info.objects.all()
 
 
+
+
 class HomeAPIView(ObjectMultipleModelAPIViewSet):
+
+    ''' homepage '''
 
     pagination_class = None
     querylist = [
