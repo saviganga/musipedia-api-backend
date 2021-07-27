@@ -1,0 +1,45 @@
+version: 2.1
+
+orbs:
+  heroku: circleci/heroku@1.2.6
+
+# jobs for build server
+jobs:
+  build:
+
+    # docker image with python3 and circleci
+    docker:
+      - image: circleci/python:3.8
+
+    working_directory: ~/truQ-musipedia
+
+    # steps (commands ) to run in container terminal
+    steps:
+
+      # checkout the git repository
+      - checkout
+
+      # install dependencies
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+          environment:
+            DATABASE_HOST: DB_HOST
+            DATABASE_NAME: DB_NAME
+            DATABASE_USER: DB_USER
+            DATABASE_PASSWORD: DB_PASSWORD
+            DB_PORT: DB_PORT
+            SECRET_KEY: SECRET_KEY
+            ALLOWED_HOSTS: ALLOWED_HOSTS
+            DEBUG: DEBUG
+
+      # run migrations
+      - run:
+          name: running migrations
+          command: |
+            . venv/bin/activate
+            python manage.py makemigrations
+            python manage.py migrate
