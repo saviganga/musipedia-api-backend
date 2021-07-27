@@ -3,6 +3,19 @@ version: 2.1
 orbs:
   heroku: circleci/heroku@1.2.6
 
+#heroku workflows
+workflows:
+  heroku_deploy:
+    jobs:
+      - build
+      - heroku/deploy-via-git:
+
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
 # jobs for build server
 jobs:
   build:
@@ -27,10 +40,10 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
           environment:
-            DATABASE_HOST: DB_HOST
-            DATABASE_NAME: DB_NAME
-            DATABASE_USER: DB_USER
-            DATABASE_PASSWORD: DB_PASSWORD
+            DB_HOST: DB_HOST
+            DB_NAME: DB_NAME
+            DB_USER: DB_USER
+            DB_PASSWORD: DB_PASSWORD
             DB_PORT: DB_PORT
             SECRET_KEY: SECRET_KEY
             ALLOWED_HOSTS: ALLOWED_HOSTS
