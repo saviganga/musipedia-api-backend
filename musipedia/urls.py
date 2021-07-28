@@ -9,7 +9,7 @@ router.register(r'songs', SongViewSet)
 router.register(r'ratings', RatingViewSet)
 router.register(r'images', ImageViewSet)
 router.register(r'info', InfoViewSet)
-router.register(r'', HomeAPIView, basename='home')
+router.register(r'home', HomeAPIView, basename='home')
 
 
 
